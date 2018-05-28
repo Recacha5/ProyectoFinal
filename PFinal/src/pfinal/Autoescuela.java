@@ -21,8 +21,9 @@ public class Autoescuela extends javax.swing.JFrame {
         vAlumnos = new ArrayList<>();
         vProfesor = new ArrayList<>();
         reservas = new HashMap<>();
-        p = new Profesor("Seat", "Alex");
-        a = new Alumno(2, "Marcos");
+        p = new Profesor("Seat", "Alex", "1234");
+        a = new Alumno(2, "Marcos", "1234");
+        admin = new Admin(true, "Admin", "1234");
         vAlumnos.add(a);
         vProfesor.add(p);
         initComponents();
@@ -40,6 +41,9 @@ public class Autoescuela extends javax.swing.JFrame {
         jTextFieldUsuario = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButtonEntrar = new javax.swing.JButton();
+        jCheckBoxAdmin = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jPasswordFieldClave = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,55 +56,83 @@ public class Autoescuela extends javax.swing.JFrame {
             }
         });
 
+        jCheckBoxAdmin.setText("Soy Admin");
+
+        jLabel2.setText("Clave:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(50, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jButtonEntrar)))
-                .addGap(77, 77, 77))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jCheckBoxAdmin)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonEntrar)
+                            .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                            .addComponent(jPasswordFieldClave))
+                        .addGap(77, 77, 77))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(103, 103, 103)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jPasswordFieldClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addComponent(jButtonEntrar)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addComponent(jCheckBoxAdmin)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEntrarMouseClicked
+        if (jCheckBoxAdmin.isSelected()) {
+            for (int i = 0; i < vAdmins.size(); i++) {
+                if (jTextFieldUsuario.getText().equalsIgnoreCase(vAdmins.get(i).getNombre()) && jPasswordFieldClave.getPassword().equals(vAdmins.get(i).getClave())) {
+                    VentanaAdmin v = new VentanaAdmin(vAdmins, vAlumnos, vProfesor);
+                    v.setLocationRelativeTo(this);
+                    v.setVisible(true);
+                    this.dispose();
+                }
+            }
+            
+            
+        } else {
 
-        for (int i = 0; i < vAlumnos.size(); i++) {
-            if (jTextFieldUsuario.getText().equalsIgnoreCase(vAlumnos.get(i).getNombre())) {
-                VentanaAlumno v = new VentanaAlumno(jTextFieldUsuario.getText(), reservas, vAlumnos.get(i), vProfesor);
-                v.setLocationRelativeTo(this);
-                v.setVisible(true);
-                this.dispose();
+            for (int i = 0; i < vAlumnos.size(); i++) {
+                if (jTextFieldUsuario.getText().equalsIgnoreCase(vAlumnos.get(i).getNombre()) && jPasswordFieldClave.getPassword().equals(vAlumnos.get(i).getClave())) {
+                    VentanaAlumno v = new VentanaAlumno(jTextFieldUsuario.getText(), reservas, vAlumnos.get(i), vProfesor);
+                    v.setLocationRelativeTo(this);
+                    v.setVisible(true);
+                    this.dispose();
+                }
+            }
+            for (int i = 0; i < vProfesor.size(); i++) {
+                if (jTextFieldUsuario.getText().equalsIgnoreCase(vProfesor.get(i).getNombre()) && jPasswordFieldClave.getPassword().equals(vProfesor.get(i).getClave())) {
+                    VentanaProfesor v = new VentanaProfesor(jTextFieldUsuario.getText(), reservas);
+                    v.setLocationRelativeTo(this);
+                    v.setVisible(true);
+                    this.dispose();
+                }
             }
         }
-        for (int i = 0; i < vProfesor.size(); i++) {
-            if (jTextFieldUsuario.getText().equalsIgnoreCase(vProfesor.get(i).getNombre())) {
-                VentanaProfesor v = new VentanaProfesor(jTextFieldUsuario.getText(), reservas);
-                v.setLocationRelativeTo(this);
-                v.setVisible(true);
-                this.dispose();
-            }
-        }
-
 
     }//GEN-LAST:event_jButtonEntrarMouseClicked
 
@@ -139,14 +171,19 @@ public class Autoescuela extends javax.swing.JFrame {
         });
     }
 
+    private Admin admin;
     private Profesor p;
     private Alumno a;
     private HashMap<Integer, Reserva> reservas;
+    private ArrayList<Admin> vAdmins;
     private ArrayList<Alumno> vAlumnos;
     private ArrayList<Profesor> vProfesor;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEntrar;
+    private javax.swing.JCheckBox jCheckBoxAdmin;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPasswordField jPasswordFieldClave;
     private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
 }

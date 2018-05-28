@@ -12,10 +12,14 @@ package pfinal;
 public abstract class Persona {
     
     protected String nombre;
+    protected String clave;
 
-    public Persona(String nombre) {
+    public Persona(String nombre, String clave) {
         this.nombre = nombre;
+        this.clave = clave;
     }
+
+    
 
     /**
      * @return the nombre
@@ -29,6 +33,20 @@ public abstract class Persona {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    /**
+     * @return the clave
+     */
+    public String getClave() {
+        return clave;
+    }
+
+    /**
+     * @param clave the clave to set
+     */
+    public void setClave(String clave) {
+        this.clave = clave;
     }
     
     

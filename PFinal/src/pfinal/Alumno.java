@@ -9,15 +9,18 @@ package pfinal;
  *
  * @author Alex Recacha
  */
-public class Alumno extends Persona{
-    
+public class Alumno extends Persona {
+
     private double horas;
 
-    public Alumno(double horas, String nombre) {
-        super(nombre);
+    public Alumno(double horas, String nombre, String clave) {
+        super(nombre, clave);
         this.horas = horas;
     }
 
+    
+
+    
     /**
      * @return the horas
      */
@@ -31,7 +34,5 @@ public class Alumno extends Persona{
     public void setHoras(double horas) {
         this.horas = horas;
     }
-    
-    
-    
+
 }

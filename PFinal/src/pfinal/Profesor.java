@@ -13,10 +13,12 @@ public class Profesor extends Persona{
     
     private String vehiculo;
 
-    public Profesor(String vehiculo, String nombre) {
-        super(nombre);
+    public Profesor(String vehiculo, String nombre, String clave) {
+        super(nombre, clave);
         this.vehiculo = vehiculo;
     }
+
+    
 
     /**
      * @return the vehiculo

@@ -6,6 +6,7 @@
 package pfinal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -154,36 +155,36 @@ public class VentanaAlumno extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jSliderInicioTarde, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSliderInicioTarde, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jSliderFinTarde, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jRadioButtonMañana))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSliderInicioManana, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jSliderFinManana, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jRadioButtonMañana)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jRadioButtonTarde)
+                                        .addGap(41, 41, 41)
+                                        .addComponent(jButtonReservar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jRadioButtonTarde)
-                                .addGap(41, 41, 41)
-                                .addComponent(jButtonReservar))))
+                                .addComponent(jSliderInicioManana, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jSliderFinManana, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
@@ -248,41 +249,48 @@ public class VentanaAlumno extends javax.swing.JFrame {
 
         boolean libre = true;
 
-        if (jRadioButtonMañana.isSelected()) {
+        if (jRadioButtonMañana.isSelected() && (jSliderInicioManana.getValue() != jSliderFinManana.getValue())) {
             Reserva r = new Reserva(jSliderInicioManana.getValue(), jSliderFinManana.getValue(), alumno, vProfesor.get((int) (Math.random() * vProfesor.size())));
-            Set set = reservas.entrySet();
-            Iterator it = set.iterator();
-            while (it.hasNext()) {
-                Map.Entry mentry = (Map.Entry) it.next();
-                if (mentry.getValue().equals(r)) {
+            
+            Collection aux = reservas.values();
+            Iterator it = aux.iterator();
+            while (it.hasNext()){
+                Reserva re = (Reserva)it.next();
+                if (re.getHoraI()==r.getHoraI() && re.getProfesor().equals(r.getProfesor()))
                     libre = false;
-                }
             }
             if (libre) {
                 reservas.put(reservas.size()+1, r);
+                horasReservadas += r.toString() + "\n";
+                jTextArea1.setText(horasReservadas);
             } else {
                 JOptionPane.showMessageDialog(this, "Franja horaria ocupada.");
             }
-        } else {
+        } else if (jSliderInicioTarde.getValue() != jSliderFinTarde.getValue()){
             Reserva r = new Reserva(jSliderInicioTarde.getValue(), jSliderFinTarde.getValue(), alumno, vProfesor.get((int) (Math.random() * vProfesor.size())));
-            Set set = reservas.entrySet();
-            Iterator it = set.iterator();
-            while (it.hasNext()) {
-                Map.Entry mentry = (Map.Entry) it.next();
-                if (mentry.getValue().equals(r)) {
+            Collection aux = reservas.values();
+            Iterator it = aux.iterator();
+            while (it.hasNext()){
+                Reserva re = (Reserva)it.next();
+                if (re.getHoraI()==r.getHoraI() && re.getHoraF() == r.getHoraF())
                     libre = false;
-                }
             }
             if (libre) {
-                reservas.put(0, r);
+                reservas.put(reservas.size()+1, r);
+                horasReservadas += r.toString() + "\n";
+                jTextArea1.setText(horasReservadas);
             } else {
                 JOptionPane.showMessageDialog(this, "Franja horaria ocupada.");
             }
+        } else{
+            JOptionPane.showMessageDialog(this, "No pongas la misma hora inicio de fin.");
         }
         
-        jTextArea1.setText(reservas.toString());
+        
 
     }//GEN-LAST:event_jButtonReservarMouseClicked
+    
+    private String horasReservadas;
     private ArrayList<Profesor> vProfesor;
     private Alumno alumno;
     private HashMap<Integer, Reserva> reservas;
