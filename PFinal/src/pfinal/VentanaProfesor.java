@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author alumno
+ * @author Alex Recacha
  */
 public class VentanaProfesor extends javax.swing.JFrame {
 

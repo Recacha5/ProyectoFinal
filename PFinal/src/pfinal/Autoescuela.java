@@ -20,12 +20,9 @@ public class Autoescuela extends javax.swing.JFrame {
     public Autoescuela() {
         vAlumnos = new ArrayList<>();
         vProfesor = new ArrayList<>();
+        vAdmins = new ArrayList<>();
         reservas = new HashMap<>();
-        p = new Profesor("Seat", "Alex", "1234");
-        a = new Alumno(2, "Marcos", "1234");
-        admin = new Admin(true, "Admin", "1234");
-        vAlumnos.add(a);
-        vProfesor.add(p);
+        crearPruebas();
         initComponents();
     }
 
@@ -103,9 +100,13 @@ public class Autoescuela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEntrarMouseClicked
+        String clave="";
+        for (int i = 0; i < jPasswordFieldClave.getPassword().length; i++) {
+                clave += Character.toString(jPasswordFieldClave.getPassword()[i]);
+            }
         if (jCheckBoxAdmin.isSelected()) {
             for (int i = 0; i < vAdmins.size(); i++) {
-                if (jTextFieldUsuario.getText().equalsIgnoreCase(vAdmins.get(i).getNombre()) && jPasswordFieldClave.getPassword().equals(vAdmins.get(i).getClave())) {
+                if (jTextFieldUsuario.getText().equalsIgnoreCase(vAdmins.get(i).getNombre()) && clave.equals(vAdmins.get(i).getClave())) {
                     VentanaAdmin v = new VentanaAdmin(vAdmins, vAlumnos, vProfesor);
                     v.setLocationRelativeTo(this);
                     v.setVisible(true);
@@ -117,7 +118,7 @@ public class Autoescuela extends javax.swing.JFrame {
         } else {
 
             for (int i = 0; i < vAlumnos.size(); i++) {
-                if (jTextFieldUsuario.getText().equalsIgnoreCase(vAlumnos.get(i).getNombre()) && jPasswordFieldClave.getPassword().equals(vAlumnos.get(i).getClave())) {
+                if (jTextFieldUsuario.getText().equalsIgnoreCase(vAlumnos.get(i).getNombre()) && clave.equals(vAlumnos.get(i).getClave())) {
                     VentanaAlumno v = new VentanaAlumno(jTextFieldUsuario.getText(), reservas, vAlumnos.get(i), vProfesor);
                     v.setLocationRelativeTo(this);
                     v.setVisible(true);
@@ -125,7 +126,7 @@ public class Autoescuela extends javax.swing.JFrame {
                 }
             }
             for (int i = 0; i < vProfesor.size(); i++) {
-                if (jTextFieldUsuario.getText().equalsIgnoreCase(vProfesor.get(i).getNombre()) && jPasswordFieldClave.getPassword().equals(vProfesor.get(i).getClave())) {
+                if (jTextFieldUsuario.getText().equalsIgnoreCase(vProfesor.get(i).getNombre()) && clave.equals(vProfesor.get(i).getClave())) {
                     VentanaProfesor v = new VentanaProfesor(jTextFieldUsuario.getText(), reservas);
                     v.setLocationRelativeTo(this);
                     v.setVisible(true);
@@ -171,6 +172,15 @@ public class Autoescuela extends javax.swing.JFrame {
         });
     }
 
+    private void crearPruebas(){
+        p = new Profesor("Seat", "Alex", "1234");
+        a = new Alumno(2, "Marcos", "1234");
+        admin = new Admin(true, "Admin", "1234");
+        vAlumnos.add(a);
+        vProfesor.add(p);
+        vAdmins.add(admin);
+    }
+    
     private Admin admin;
     private Profesor p;
     private Alumno a;
