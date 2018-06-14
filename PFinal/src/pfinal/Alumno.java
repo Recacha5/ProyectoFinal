@@ -11,9 +11,9 @@ package pfinal;
  */
 public class Alumno extends Persona {
 
-    private double horas;
+    private int horas;
 
-    public Alumno(double horas, String nombre, String clave) {
+    public Alumno(int horas, String nombre, String clave) {
         super(nombre, clave);
         this.horas = horas;
     }
@@ -31,7 +31,7 @@ public class Alumno extends Persona {
     /**
      * @param horas the horas to set
      */
-    public void setHoras(double horas) {
+    public void setHoras(int horas) {
         this.horas = horas;
     }
 

@@ -5,6 +5,7 @@
  */
 package pfinal;
 
+import IOBD.Conexion;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -22,10 +23,13 @@ public class VentanaAdmin extends javax.swing.JFrame {
      * @param vProfesor Recibe el vector de Profesores
      */
     public VentanaAdmin(ArrayList<Admin> vAdmin, ArrayList<Alumno> vAlumnos, ArrayList<Profesor> vProfesor) {
+        this.c = new Conexion();
         initComponents();
         this.vProfesor = vProfesor;
         this.vAdmin = vAdmin;
         this.vAlumnos = vAlumnos;
+        jTextFieldVehiculo.setEnabled(false);
+
     }
 
     /**
@@ -40,7 +44,7 @@ public class VentanaAdmin extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextFieldUsuarioProfe = new javax.swing.JTextField();
+        jTextFieldUsuarioNombre = new javax.swing.JTextField();
         jPasswordFieldClave = new javax.swing.JPasswordField();
         jPasswordFieldClaveRepetir = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
@@ -50,6 +54,8 @@ public class VentanaAdmin extends javax.swing.JFrame {
         jRadioButtonProfesor = new javax.swing.JRadioButton();
         jRadioButtonAdmin = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextFieldVehiculo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,13 +75,29 @@ public class VentanaAdmin extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jRadioButtonAlumno);
+        jRadioButtonAlumno.setSelected(true);
         jRadioButtonAlumno.setText("Alumno");
+        jRadioButtonAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonAlumnoActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButtonProfesor);
         jRadioButtonProfesor.setText("Profesor");
+        jRadioButtonProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonProfesorActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButtonAdmin);
         jRadioButtonAdmin.setText("Administrador");
+        jRadioButtonAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonAdminActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Desconectar");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -84,44 +106,53 @@ public class VentanaAdmin extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Matrícula Vehículo:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCrear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(30, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(jRadioButtonAlumno, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldUsuarioProfe, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jPasswordFieldClave, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jPasswordFieldClaveRepetir, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButtonProfesor)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButtonAdmin)))))
-                .addGap(22, 22, 22))
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel3))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldUsuarioNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPasswordFieldClave, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPasswordFieldClaveRepetir, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jRadioButtonAlumno)
+                        .addGap(32, 32, 32)
+                        .addComponent(jRadioButtonProfesor)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonAdmin)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jButtonCrear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextFieldUsuarioProfe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUsuarioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPasswordFieldClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -130,32 +161,36 @@ public class VentanaAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPasswordFieldClaveRepetir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButtonProfesor)
                     .addComponent(jRadioButtonAlumno)
                     .addComponent(jRadioButtonAdmin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCrear)
                     .addComponent(jButton1))
-                .addGap(16, 16, 16))
+                .addGap(11, 11, 11))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -163,27 +198,34 @@ public class VentanaAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCrearMouseClicked
+        String clave = "";
+        jTextFieldVehiculo.setEnabled(false);
+        if (jPasswordFieldClave.getPassword().equals(jPasswordFieldClaveRepetir.getPassword()) && !(jTextFieldUsuarioNombre.getText().equals("") || jPasswordFieldClave.getPassword().equals("") || jPasswordFieldClaveRepetir.equals(""))) {
 
-        if (jPasswordFieldClave.getPassword().equals(jPasswordFieldClaveRepetir.getPassword()) && !jTextFieldUsuarioProfe.getText().equals("") && !jPasswordFieldClave.getPassword().equals("") && !jPasswordFieldClaveRepetir.equals("")) {
-            String clave = "";
             for (int i = 0; i < jPasswordFieldClave.getPassword().length; i++) {
                 clave += Character.toString(jPasswordFieldClave.getPassword()[i]);
             }
-            if (jRadioButtonAdmin.isSelected()) {
-                Admin admin = new Admin(true, jTextFieldUsuarioProfe.getText(), clave);
-                vAdmin.add(admin);
+        }
+        if (jRadioButtonAdmin.isSelected()) {
 
-            } else if (jRadioButtonAlumno.isSelected()) {
-                Alumno a = new Alumno(0, jTextFieldUsuarioProfe.getText(), clave);
+            c.insertarAdmin(jTextFieldUsuarioNombre.getText(), clave, true);
+            
+        } else if (jRadioButtonAlumno.isSelected()) {
 
-            } else if (jRadioButtonProfesor.isSelected()) {
+            c.insertarAlumno(jTextFieldUsuarioNombre.getText(), clave);
 
-            } else {
-                JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos");
-            }
+        } else if (jRadioButtonProfesor.isSelected() && !jTextFieldVehiculo.getText().equalsIgnoreCase("")) {
+            jTextFieldVehiculo.setEnabled(true);
+            c.insertarProfesor(jTextFieldUsuarioNombre.getText(), clave, jTextFieldVehiculo.getText());
 
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos");
         }
 
+        jTextFieldUsuarioNombre.setText("");
+            jTextFieldVehiculo.setText("");
+            jPasswordFieldClave.setText("");
+            jPasswordFieldClaveRepetir.setText("");
     }//GEN-LAST:event_jButtonCrearMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -195,6 +237,19 @@ public class VentanaAdmin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void jRadioButtonProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonProfesorActionPerformed
+        jTextFieldVehiculo.setEnabled(true);
+    }//GEN-LAST:event_jRadioButtonProfesorActionPerformed
+
+    private void jRadioButtonAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAlumnoActionPerformed
+        jTextFieldVehiculo.setEnabled(false);
+    }//GEN-LAST:event_jRadioButtonAlumnoActionPerformed
+
+    private void jRadioButtonAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAdminActionPerformed
+        jTextFieldVehiculo.setEnabled(false);
+    }//GEN-LAST:event_jRadioButtonAdminActionPerformed
+
+    private Conexion c;
     private ArrayList<Profesor> vProfesor;
     private ArrayList<Alumno> vAlumnos;
     private ArrayList<Admin> vAdmin;
@@ -205,12 +260,14 @@ public class VentanaAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordFieldClave;
     private javax.swing.JPasswordField jPasswordFieldClaveRepetir;
     private javax.swing.JRadioButton jRadioButtonAdmin;
     private javax.swing.JRadioButton jRadioButtonAlumno;
     private javax.swing.JRadioButton jRadioButtonProfesor;
-    private javax.swing.JTextField jTextFieldUsuarioProfe;
+    private javax.swing.JTextField jTextFieldUsuarioNombre;
+    private javax.swing.JTextField jTextFieldVehiculo;
     // End of variables declaration//GEN-END:variables
 }

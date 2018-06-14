@@ -7,6 +7,7 @@ package pfinal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import IOBD.Conexion;
 
 /**
  *
@@ -18,12 +19,14 @@ public class Autoescuela extends javax.swing.JFrame {
      * Creates new form Autoescuela
      */
     public Autoescuela() {
-        vAlumnos = new ArrayList<>();
-        vProfesor = new ArrayList<>();
-        vAdmins = new ArrayList<>();
-        reservas = new HashMap<>();
+        Conexion c = new Conexion();
+        vAlumnos = c.cargarAlumnos();
+        vProfesor = c.cargarProfesor();
+        vAdmins = c.cargarAdmins();
+        reservas = c.cargarReservas();
         crearPruebas();
         initComponents();
+        
     }
 
     /**
@@ -113,8 +116,6 @@ public class Autoescuela extends javax.swing.JFrame {
                     this.dispose();
                 }
             }
-            
-            
         } else {
 
             for (int i = 0; i < vAlumnos.size(); i++) {
@@ -175,13 +176,15 @@ public class Autoescuela extends javax.swing.JFrame {
     private void crearPruebas(){
         p = new Profesor("Seat", "Alex", "1234");
         a = new Alumno(2, "Marcos", "1234");
-        admin = new Admin(true, "Admin", "1234");
+        //admin = new Admin(true, "Admin", "1234");
         vAlumnos.add(a);
         vProfesor.add(p);
-        vAdmins.add(admin);
+        //vAdmins.add(admin);
+        
     }
     
-    private Admin admin;
+    
+    //private Admin admin;
     private Profesor p;
     private Alumno a;
     private HashMap<Integer, Reserva> reservas;

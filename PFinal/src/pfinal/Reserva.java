@@ -13,17 +13,26 @@ public class Reserva {
     
     private int horaI;
     private int horaF;
-    private Alumno alumno;
-    private Profesor profesor;
+    private int alumno;
+    private int profesor;
     private boolean completada;
 
-    public Reserva(int horaI, int horaF, Alumno alumno, Profesor profesor) {
+    public Reserva(int horaI, int horaF, int alumno, int profesor) {
         this.horaI = horaI;
         this.horaF = horaF;
         this.alumno = alumno;
         this.profesor = profesor;
         this.completada = false;
     }
+
+    public Reserva(int horaI, int horaF, int alumno, int profesor, boolean completada) {
+        this.horaI = horaI;
+        this.horaF = horaF;
+        this.alumno = alumno;
+        this.profesor = profesor;
+        this.completada = completada;
+    }
+    
 
     /**
      * @return the horaI
@@ -56,28 +65,28 @@ public class Reserva {
     /**
      * @return the alumno
      */
-    public Alumno getAlumno() {
+    public int getAlumno() {
         return alumno;
     }
 
     /**
      * @param alumno the alumno to set
      */
-    public void setAlumno(Alumno alumno) {
+    public void setAlumno(int alumno) {
         this.alumno = alumno;
     }
 
     /**
      * @return the profesor
      */
-    public Profesor getProfesor() {
+    public int getProfesor() {
         return profesor;
     }
 
     /**
      * @param profesor the profesor to set
      */
-    public void setProfesor(Profesor profesor) {
+    public void setProfesor(int profesor) {
         this.profesor = profesor;
     }
 
@@ -105,7 +114,7 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Hora Inicio: " + horaI + "h, Hora Fin: " + horaF + "h, Alumno: " + alumno.getNombre() + ", Profesor: " + profesor.getNombre() + ", Completada:" + completar();
+        return "Hora Inicio: " + horaI + "h, Hora Fin: " + horaF + "h, Alumno: " + alumno + ", Profesor: " + profesor + ", Completada:" + completar();
     }
             
     
