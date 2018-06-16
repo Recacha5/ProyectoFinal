@@ -5,6 +5,9 @@
  */
 package pfinal;
 
+import IOBD.Conexion;
+import com.sun.jndi.ldap.Connection;
+
 /**
  *
  * @author Alex Recacha
@@ -16,6 +19,7 @@ public class Reserva {
     private int alumno;
     private int profesor;
     private boolean completada;
+    private Conexion c = new Conexion();
 
     public Reserva(int horaI, int horaF, int alumno, int profesor) {
         this.horaI = horaI;
@@ -23,6 +27,7 @@ public class Reserva {
         this.alumno = alumno;
         this.profesor = profesor;
         this.completada = false;
+        
     }
 
     public Reserva(int horaI, int horaF, int alumno, int profesor, boolean completada) {
@@ -31,6 +36,7 @@ public class Reserva {
         this.alumno = alumno;
         this.profesor = profesor;
         this.completada = completada;
+        
     }
     
 
@@ -114,7 +120,7 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Hora Inicio: " + horaI + "h, Hora Fin: " + horaF + "h, Alumno: " + alumno + ", Profesor: " + profesor + ", Completada:" + completar();
+        return "Hora Inicio: " + horaI + "h, Hora Fin: " + horaF + "h, Alumno: " + c.consultarNombreAlumno(alumno) + ", Profesor: " + c.consultarNombreProfesor(profesor) + ", Completada:" + completar();
     }
             
     

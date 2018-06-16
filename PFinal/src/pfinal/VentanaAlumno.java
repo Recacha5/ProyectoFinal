@@ -41,9 +41,12 @@ public class VentanaAlumno extends javax.swing.JFrame {
         this.usuario = usuario;
         jLabel5.setText(usuario);
         this.reservas = reservas;
+        this.TodasReservas = c.cargarTodasLasReservas();
         this.alumno = a;
         this.vProfesor = vProfesor;
-
+        modelo = new DefaultListModel();
+        jList1.setModel(modelo);
+        crearLista();
     }
 
     /**
@@ -69,7 +72,9 @@ public class VentanaAlumno extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButtonReservar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
+        modelo = new DefaultListModel();
         jList1 = new javax.swing.JList<>();
+        jButtonDesconectar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -136,7 +141,7 @@ public class VentanaAlumno extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel4.setText("Bienvenido,");
+        jLabel4.setText("Bienvenid@,");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
@@ -147,60 +152,67 @@ public class VentanaAlumno extends javax.swing.JFrame {
             }
         });
 
+        jList1.setModel(modelo);
         jScrollPane2.setViewportView(jList1);
+
+        jButtonDesconectar.setText("Desconectar");
+        jButtonDesconectar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonDesconectarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jSliderInicioManana, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(jSliderInicioTarde, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSliderFinTarde, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSliderFinManana, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jRadioButtonMañana)
-                        .addGap(27, 27, 27)
-                        .addComponent(jRadioButtonTarde)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jRadioButtonMañana)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(37, 37, 37)
+                                                .addComponent(jRadioButtonTarde)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jButtonReservar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonDesconectar)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(53, 53, 53)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane2))
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(118, 118, 118)
                 .addComponent(jLabel3)
-                .addGap(81, 81, 81))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSliderInicioManana, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSliderFinManana, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSliderInicioTarde, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSliderFinTarde, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(266, 266, 266)
-                        .addComponent(jButtonReservar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +229,8 @@ public class VentanaAlumno extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButtonTarde)
-                    .addComponent(jRadioButtonMañana))
+                    .addComponent(jRadioButtonMañana)
+                    .addComponent(jButtonDesconectar))
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -256,69 +269,65 @@ public class VentanaAlumno extends javax.swing.JFrame {
 
         boolean libre = true;
         int ran = (int) (Math.floor(Math.random() * vProfesor.size()) + 1);
-
+        
         if (jRadioButtonMañana.isSelected() && (jSliderInicioManana.getValue() != jSliderFinManana.getValue())) {
+            jList1.removeAll();
             Reserva r = new Reserva(jSliderInicioManana.getValue(), jSliderFinManana.getValue(), c.consultarCodigoAlumno(usuario), ran);
-            Collection aux = reservas.values();
+            Collection aux = TodasReservas.values();
             Iterator it = aux.iterator();
             while (it.hasNext()) {
                 Reserva re = (Reserva) it.next();
-                if (re.getHoraI() == r.getHoraI() && re.getHoraF() == r.getHoraF()) {
+                if ((re.getHoraI() == r.getHoraI() || re.getHoraF() == r.getHoraF()) && re.getProfesor() == r.getProfesor()) {
                     libre = false;
                 }
             }
             if (libre) {
-                //reservas.put(reservas.size()+1, r);
                 c.insertarReserva(jSliderInicioManana.getValue(), jSliderFinManana.getValue(), c.consultarCodigoAlumno(usuario), ran);
-                horasReservadas += r.toString() + "\n";
-
+                ran = 0;
+                crearLista();
             } else {
                 JOptionPane.showMessageDialog(this, "Franja horaria ocupada.");
             }
-        } else if (jSliderInicioTarde.getValue() != jSliderFinTarde.getValue()) {
+        }
+        if (jRadioButtonTarde.isSelected() && (jSliderInicioTarde.getValue() != jSliderFinTarde.getValue())) {
+            jList1.removeAll();
             Reserva r = new Reserva(jSliderInicioTarde.getValue(), jSliderFinTarde.getValue(), c.consultarCodigoAlumno(usuario), c.consultarCodigoProfesor(usuario));
-            Collection aux = reservas.values();
+            Collection aux = TodasReservas.values();
             Iterator it = aux.iterator();
             while (it.hasNext()) {
                 Reserva re = (Reserva) it.next();
-                if (re.getHoraI() == r.getHoraI() && re.getHoraF() == r.getHoraF()) {
+                if ((re.getHoraI() == r.getHoraI() || re.getHoraF() == r.getHoraF()) && re.getProfesor() == r.getProfesor()) {
                     libre = false;
                 }
             }
             if (libre) {
-                //reservas.put(reservas.size()+1, r);
-                horasReservadas += r.toString() + "\n";
                 c.insertarReserva(jSliderInicioTarde.getValue(), jSliderFinTarde.getValue(), c.consultarCodigoAlumno(usuario), ran);
+                ran = 0;
+                crearLista();
             } else {
                 JOptionPane.showMessageDialog(this, "Franja horaria ocupada.");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "No pongas la misma hora inicio de fin.");
         }
 
-        String[] vLista = new String[reservas.size()];
-        int contador = 0;
-        reservas = c.cargarReservas();
-        Collection aux = reservas.values();
-        Iterator it = aux.iterator();
-        while (it.hasNext()) {
-            Reserva re = (Reserva) it.next();
-            vLista[contador] = re.toString();
-            contador++;
-        }
-        JList lista = new JList(vLista);
-
+        
 
     }//GEN-LAST:event_jButtonReservarMouseClicked
-    private DefaultListModel crearLista() {
-        DefaultListModel<String> model = new DefaultListModel<>();
+
+    private void jButtonDesconectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDesconectarMouseClicked
+        Autoescuela a = new Autoescuela();
+        a.setLocationRelativeTo(this);
+        a.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonDesconectarMouseClicked
+    private void crearLista() {
+        reservas = c.cargarReservasAlumno(usuario);
         Collection aux = reservas.values();
         Iterator it = aux.iterator();
         while (it.hasNext()) {
             Reserva re = (Reserva) it.next();
-            model.addElement(re.toString());
+            modelo.addElement(re.toString());
         }
-        return model;
+
     }
 
     private Conexion c;
@@ -326,9 +335,11 @@ public class VentanaAlumno extends javax.swing.JFrame {
     private ArrayList<Profesor> vProfesor;
     private Alumno alumno;
     private HashMap<Integer, Reserva> reservas;
+    private HashMap<Integer, Reserva> TodasReservas;
     private String usuario;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButtonDesconectar;
     private javax.swing.JButton jButtonReservar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -336,6 +347,7 @@ public class VentanaAlumno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JList<String> jList1;
+    private DefaultListModel modelo;
     private javax.swing.JRadioButton jRadioButtonMañana;
     private javax.swing.JRadioButton jRadioButtonTarde;
     private javax.swing.JScrollPane jScrollPane2;

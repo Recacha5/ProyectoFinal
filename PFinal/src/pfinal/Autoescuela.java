@@ -19,11 +19,11 @@ public class Autoescuela extends javax.swing.JFrame {
      * Creates new form Autoescuela
      */
     public Autoescuela() {
-        Conexion c = new Conexion();
+        c = new Conexion();
         vAlumnos = c.cargarAlumnos();
         vProfesor = c.cargarProfesor();
         vAdmins = c.cargarAdmins();
-        reservas = c.cargarReservas();
+        //reservas = c.cargarReservas();
         crearPruebas();
         initComponents();
         
@@ -120,6 +120,7 @@ public class Autoescuela extends javax.swing.JFrame {
 
             for (int i = 0; i < vAlumnos.size(); i++) {
                 if (jTextFieldUsuario.getText().equalsIgnoreCase(vAlumnos.get(i).getNombre()) && clave.equals(vAlumnos.get(i).getClave())) {
+                    reservas = c.cargarReservasAlumno(jTextFieldUsuario.getText());
                     VentanaAlumno v = new VentanaAlumno(jTextFieldUsuario.getText(), reservas, vAlumnos.get(i), vProfesor);
                     v.setLocationRelativeTo(this);
                     v.setVisible(true);
@@ -128,6 +129,7 @@ public class Autoescuela extends javax.swing.JFrame {
             }
             for (int i = 0; i < vProfesor.size(); i++) {
                 if (jTextFieldUsuario.getText().equalsIgnoreCase(vProfesor.get(i).getNombre()) && clave.equals(vProfesor.get(i).getClave())) {
+                    reservas = c.cargarReservasProfesor(jTextFieldUsuario.getText());
                     VentanaProfesor v = new VentanaProfesor(jTextFieldUsuario.getText(), reservas);
                     v.setLocationRelativeTo(this);
                     v.setVisible(true);
@@ -185,6 +187,7 @@ public class Autoescuela extends javax.swing.JFrame {
     
     
     //private Admin admin;
+    Conexion c;
     private Profesor p;
     private Alumno a;
     private HashMap<Integer, Reserva> reservas;

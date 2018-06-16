@@ -199,33 +199,35 @@ public class VentanaAdmin extends javax.swing.JFrame {
 
     private void jButtonCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCrearMouseClicked
         String clave = "";
+        String clave2 = "";
         jTextFieldVehiculo.setEnabled(false);
-        if (jPasswordFieldClave.getPassword().equals(jPasswordFieldClaveRepetir.getPassword()) && !(jTextFieldUsuarioNombre.getText().equals("") || jPasswordFieldClave.getPassword().equals("") || jPasswordFieldClaveRepetir.equals(""))) {
+        for (int i = 0; i < jPasswordFieldClave.getPassword().length; i++) {
+            clave += Character.toString(jPasswordFieldClave.getPassword()[i]);
+        }
+        for (int i = 0; i < jPasswordFieldClaveRepetir.getPassword().length; i++) {
+            clave2 += Character.toString(jPasswordFieldClaveRepetir.getPassword()[i]);
+        }
+        if (clave.equals(clave2) && !jTextFieldUsuarioNombre.getText().equals("") && !jPasswordFieldClave.getPassword().equals("") && !jPasswordFieldClaveRepetir.equals("")) {
+            if (jRadioButtonAdmin.isSelected()) {
 
-            for (int i = 0; i < jPasswordFieldClave.getPassword().length; i++) {
-                clave += Character.toString(jPasswordFieldClave.getPassword()[i]);
+                c.insertarAdmin(jTextFieldUsuarioNombre.getText(), clave, true);
+
+            } else if (jRadioButtonAlumno.isSelected()) {
+
+                c.insertarAlumno(jTextFieldUsuarioNombre.getText(), clave);
+
+            } else if (jRadioButtonProfesor.isSelected() && !jTextFieldVehiculo.getText().equalsIgnoreCase("")) {
+
+                c.insertarProfesor(jTextFieldUsuarioNombre.getText(), clave, jTextFieldVehiculo.getText());
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos");
             }
         }
-        if (jRadioButtonAdmin.isSelected()) {
-
-            c.insertarAdmin(jTextFieldUsuarioNombre.getText(), clave, true);
-            
-        } else if (jRadioButtonAlumno.isSelected()) {
-
-            c.insertarAlumno(jTextFieldUsuarioNombre.getText(), clave);
-
-        } else if (jRadioButtonProfesor.isSelected() && !jTextFieldVehiculo.getText().equalsIgnoreCase("")) {
-            jTextFieldVehiculo.setEnabled(true);
-            c.insertarProfesor(jTextFieldUsuarioNombre.getText(), clave, jTextFieldVehiculo.getText());
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos");
-        }
-
         jTextFieldUsuarioNombre.setText("");
-            jTextFieldVehiculo.setText("");
-            jPasswordFieldClave.setText("");
-            jPasswordFieldClaveRepetir.setText("");
+        jTextFieldVehiculo.setText("");
+        jPasswordFieldClave.setText("");
+        jPasswordFieldClaveRepetir.setText("");
     }//GEN-LAST:event_jButtonCrearMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked

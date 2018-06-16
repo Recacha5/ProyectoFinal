@@ -24,7 +24,7 @@ import pfinal.Reserva;
  * @author Alex Recacha
  */
 public class Conexion {
-    
+
     private String db = "proyecto";
     private String url = "jdbc:mysql://localhost:3307/" + db;
     private String user = "root";
@@ -33,31 +33,29 @@ public class Conexion {
 
     public Conexion() {
     }
-    
-    private void conectar(){
-        
-        
+
+    private void conectar() {
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion =  DriverManager.getConnection(url, user, pass);
+            conexion = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
     }
-    
-    private void desconectar(){
+
+    private void desconectar() {
         try {
             conexion.close();
         } catch (SQLException ex) {
             System.err.println("Fallo al desconectar");
         }
     }
-    
-    public void insertarAlumno(String nombre, String clave){
+
+    public void insertarAlumno(String nombre, String clave) {
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("insert into alumno values(0,?,?,?)");
@@ -71,23 +69,25 @@ public class Conexion {
         }
         desconectar();
     }
-    
-    public HashMap<Integer, Reserva> cargarReservas(){
+
+    public HashMap<Integer, Reserva> cargarReservasAlumno(String nombre) {
         HashMap<Integer, Reserva> reservas = new HashMap<>();
+        int codigo = consultarCodigoAlumno(nombre);
+        int contador = 0;
         conectar();
         try {
-            PreparedStatement ps = conexion.prepareStatement("select * from reservas");
+            PreparedStatement ps = conexion.prepareStatement("select * from reservas where cod_alumno = ?");
+            ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Reserva r = new Reserva(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6));
-                reservas.put(0, r);
-                
+                reservas.put(contador, r);
+                contador++;
             }
             rs.close();
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,76 +95,121 @@ public class Conexion {
         return reservas;
     }
     
-    public ArrayList<Alumno> cargarAlumnos(){
+    public HashMap<Integer, Reserva> cargarReservasProfesor(String nombre) {
+        HashMap<Integer, Reserva> reservas = new HashMap<>();
+        int codigo = consultarCodigoProfesor(nombre);
+        int contador = 0;
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("select * from reservas where cod_profesor = ?");
+            ps.setInt(1, codigo);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Reserva r = new Reserva(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6));
+                reservas.put(contador, r);
+                contador++;
+            }
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        desconectar();
+        return reservas;
+    }
+    public HashMap<Integer, Reserva> cargarTodasLasReservas() {
+        HashMap<Integer, Reserva> reservas = new HashMap<>();
+        int contador = 0;
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("select * from reservas");
+            
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Reserva r = new Reserva(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6));
+                reservas.put(contador, r);
+                contador++;
+            }
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        desconectar();
+        return reservas;
+    }
+
+    public ArrayList<Alumno> cargarAlumnos() {
         ArrayList<Alumno> vAlumnos = new ArrayList<>();
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("select * from alumno");
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
-                Alumno a = new Alumno(rs.getInt(2), rs.getString(3), rs.getString(4));
+
+            while (rs.next()) {
+                Alumno a = new Alumno(rs.getInt(4), rs.getString(2), rs.getString(3));
                 vAlumnos.add(a);
-                
+
             }
             rs.close();
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         desconectar();
         return vAlumnos;
     }
-    
-    public ArrayList<Admin> cargarAdmins(){
+
+    public ArrayList<Admin> cargarAdmins() {
         ArrayList<Admin> vAdmins = new ArrayList<>();
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("select * from admin");
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Admin a = new Admin(rs.getBoolean(4), rs.getString(2), rs.getString(3));
                 vAdmins.add(a);
-                
+
             }
             rs.close();
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         desconectar();
         return vAdmins;
     }
-    
-    public ArrayList<Profesor> cargarProfesor(){
+
+    public ArrayList<Profesor> cargarProfesor() {
         ArrayList<Profesor> vProfesores = new ArrayList<>();
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("select * from admin");
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Profesor p = new Profesor(rs.getString(2), rs.getString(3), rs.getString(4));
                 vProfesores.add(p);
-                
+
             }
             rs.close();
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         desconectar();
         return vProfesores;
     }
-    
-    public void insertarReserva(int horai, int horaf, int alumno, int profesor){
+
+    public void insertarReserva(int horai, int horaf, int alumno, int profesor) {
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("insert into reservas values(0,?,?,?,?,0)");
@@ -178,7 +223,7 @@ public class Conexion {
         }
         desconectar();
     }
-    
+
     /*public void insertarAlumno2(String nombre, String clave, int horas){
         conectar();
         try {
@@ -192,8 +237,7 @@ public class Conexion {
         }
         desconectar();
     }*/
-    
-    public void insertarProfesor(String nombre, String clave, String vehiculo){
+    public void insertarProfesor(String nombre, String clave, String vehiculo) {
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("insert into profesor values(0,?,?,?)");
@@ -206,8 +250,8 @@ public class Conexion {
         }
         desconectar();
     }
-    
-    public void insertarAdmin(String nombre, String clave, Boolean admin){
+
+    public void insertarAdmin(String nombre, String clave, Boolean admin) {
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("insert into admin values(0,?,?,?)");
@@ -220,45 +264,85 @@ public class Conexion {
         }
         desconectar();
     }
-    
-    public int consultarCodigoAlumno(String nombre){
-        int codigo=0;
+
+    public int consultarCodigoAlumno(String nombre) {
+        int codigo = 0;
         conectar();
         try {
-            PreparedStatement ps = conexion.prepareStatement("select cod_alumno from alumno where nombre = '?'");
+            PreparedStatement ps = conexion.prepareStatement("select * from alumno where nombre = ?");
             ps.setString(1, nombre);
             ResultSet rs = ps.executeQuery();
-            
-            codigo = rs.getInt(1);
+            while (rs.next()) {
+                codigo = rs.getInt(1);
+            }
             rs.close();
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         desconectar();
         return codigo;
     }
-    
-    public int consultarCodigoProfesor(String nombre){
-        int codigo=0;
+
+    public int consultarCodigoProfesor(String nombre) {
+        int codigo = 0;
         conectar();
         try {
-            PreparedStatement ps = conexion.prepareStatement("select cod_profesor from profesor where nombre = '?'");
+            PreparedStatement ps = conexion.prepareStatement("select cod_profesor from profesor where nombre = ?");
             ps.setString(1, nombre);
             ResultSet rs = ps.executeQuery();
-            
-            codigo = rs.getInt(1);
+            while (rs.next()) {
+                codigo = rs.getInt(1);
+            }
             rs.close();
             ps.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         desconectar();
         return codigo;
     }
+
+    public String consultarNombreProfesor(int codigo) {
+        String nombre = "";
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("select * from profesor where cod_profesor = ?");
+            ps.setInt(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                nombre = rs.getString(2);
+            }
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        desconectar();
+        return nombre;
+    }
     
+    public String consultarNombreAlumno(int codigo) {
+        String nombre = "";
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("select * from alumno where cod_alumno = ?");
+            ps.setInt(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                nombre = rs.getString(2);
+            }
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        desconectar();
+        return nombre;
+    }
+
 }
