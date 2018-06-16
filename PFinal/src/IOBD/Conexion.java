@@ -191,11 +191,11 @@ public class Conexion {
         ArrayList<Profesor> vProfesores = new ArrayList<>();
         conectar();
         try {
-            PreparedStatement ps = conexion.prepareStatement("select * from admin");
+            PreparedStatement ps = conexion.prepareStatement("select * from profesor");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Profesor p = new Profesor(rs.getString(2), rs.getString(3), rs.getString(4));
+                Profesor p = new Profesor(rs.getString(4), rs.getString(2), rs.getString(3));
                 vProfesores.add(p);
 
             }
@@ -304,6 +304,29 @@ public class Conexion {
         desconectar();
         return codigo;
     }
+    
+    public int consultarCodigoReserva(int alumno, int profesor, int horai, int horaf) {
+        int codigo = 0;
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("select cod_reserva from reservas where cod_alumno = ? AND cod_profesor = ? AND hora_inicio = ? AND hora_fin = ?");
+            ps.setInt(1, alumno);
+            ps.setInt(2, profesor);
+            ps.setInt(3, horai);
+            ps.setInt(4, horaf);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                codigo = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        desconectar();
+        return codigo;
+    }
 
     public String consultarNombreProfesor(int codigo) {
         String nombre = "";
@@ -343,6 +366,44 @@ public class Conexion {
         }
         desconectar();
         return nombre;
+    }
+    
+    public void eliminarReserva(int codigo) {
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("delete from reservas where cod_reserva = ?");
+            ps.setInt(1, codigo);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("Error al eliminar");
+        }
+        desconectar();
+    }
+    
+    public void completarReserva(int codigo) {
+        
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("update reservas set completada = 1 where cod_reserva = ?");
+            ps.setInt(1, codigo);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("Error al eliminar reserva");
+        }
+        desconectar();
+    }
+    
+    public void sumarHoras(int codigo, int horas) {
+        conectar();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("update alumno set horas=horas + ? where cod_alumno = ?");
+            ps.setInt(1, horas);
+            ps.setInt(2, codigo);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("Error al sumar horas");
+        }
+        desconectar();
     }
 
 }

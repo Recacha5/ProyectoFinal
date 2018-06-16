@@ -23,8 +23,6 @@ public class Autoescuela extends javax.swing.JFrame {
         vAlumnos = c.cargarAlumnos();
         vProfesor = c.cargarProfesor();
         vAdmins = c.cargarAdmins();
-        //reservas = c.cargarReservas();
-        crearPruebas();
         initComponents();
         
     }
@@ -175,21 +173,8 @@ public class Autoescuela extends javax.swing.JFrame {
         });
     }
 
-    private void crearPruebas(){
-        p = new Profesor("Seat", "Alex", "1234");
-        a = new Alumno(2, "Marcos", "1234");
-        //admin = new Admin(true, "Admin", "1234");
-        vAlumnos.add(a);
-        vProfesor.add(p);
-        //vAdmins.add(admin);
-        
-    }
-    
-    
-    //private Admin admin;
+
     Conexion c;
-    private Profesor p;
-    private Alumno a;
     private HashMap<Integer, Reserva> reservas;
     private ArrayList<Admin> vAdmins;
     private ArrayList<Alumno> vAlumnos;
