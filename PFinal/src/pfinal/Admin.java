@@ -13,6 +13,12 @@ public class Admin extends Persona{
     
     private boolean isAdmin;
 
+    /**Constructor del objeto Admin, descendiente de la clase Persona.
+     *
+     * @param isAdmin recibe un booleano true si es admin
+     * @param nombre recibe un nombre
+     * @param clave recibe una clave
+     */
     public Admin(boolean isAdmin, String nombre, String clave) {
         super(nombre, clave);
         this.isAdmin = isAdmin;

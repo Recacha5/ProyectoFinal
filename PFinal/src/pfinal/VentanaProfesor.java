@@ -124,6 +124,10 @@ public class VentanaProfesor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Borrar una reserva
+     * @param evt 
+     */
     private void jButtonBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBorrarMouseClicked
         
         if (modelo.getSize()>0) {
@@ -137,6 +141,10 @@ public class VentanaProfesor extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonBorrarMouseClicked
 
+    /**
+     * Cierra la ventana y vuelve a pedir usuario y contraseña para logearte
+     * @param evt 
+     */
     private void jButtonDesconectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDesconectarMouseClicked
         Autoescuela a = new Autoescuela();
         a.setLocationRelativeTo(this);
@@ -144,6 +152,10 @@ public class VentanaProfesor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonDesconectarMouseClicked
 
+    /**
+     * Completa una practica y suma las horas realizadas.
+     * @param evt 
+     */
     private void jButtonCompletadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCompletadaMouseClicked
         
         if (modelo.getSize()>0) {
@@ -157,7 +169,9 @@ public class VentanaProfesor extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButtonCompletadaMouseClicked
-    
+    /**
+     * Método para crear un modelo para JList
+     */
     private void crearLista() {
         modelo.removeAllElements();
         reservas = c.cargarReservasProfesor(usuario);

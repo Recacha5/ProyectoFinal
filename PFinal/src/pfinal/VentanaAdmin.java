@@ -199,6 +199,10 @@ public class VentanaAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Crea un usuario.
+     * @param evt 
+     */
     private void jButtonCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCrearMouseClicked
         String clave = "";
         String clave2 = "";
@@ -232,6 +236,10 @@ public class VentanaAdmin extends javax.swing.JFrame {
         jPasswordFieldClaveRepetir.setText("");
     }//GEN-LAST:event_jButtonCrearMouseClicked
 
+    /**
+     * Cierra la ventana y vuelve a pedir usuario y contraseña para logearte.
+     * @param evt 
+     */
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
         Autoescuela a = new Autoescuela();

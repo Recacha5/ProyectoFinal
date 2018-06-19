@@ -17,6 +17,7 @@ public class Autoescuela extends javax.swing.JFrame {
 
     /**
      * Creates new form Autoescuela
+     * No recibe nada pero inicializamos ArrayList y el Objeto Conexion para usar los métodos y realizar consultas a la BD
      */
     public Autoescuela() {
         c = new Conexion();
@@ -99,7 +100,11 @@ public class Autoescuela extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * 
+ * @param evt 
+ * Realiza comprobaciones de contraseña y pasa a la respectiva ventana.
+ */
     private void jButtonEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEntrarMouseClicked
         String clave="";
         for (int i = 0; i < jPasswordFieldClave.getPassword().length; i++) {

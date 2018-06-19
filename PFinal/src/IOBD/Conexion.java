@@ -31,9 +31,18 @@ public class Conexion {
     private String pass = "usbw";
     private Connection conexion;
 
+    /**
+     * Constructor vacío para poder crear un Objeto Conexion y trabajar con los
+     * métodos de la clase.
+     *
+     */
     public Conexion() {
+
     }
 
+    /**
+     * Conecta con la base de datos.
+     */
     private void conectar() {
 
         try {
@@ -47,6 +56,9 @@ public class Conexion {
 
     }
 
+    /**
+     *Desconexion de la base de datos.
+     */
     private void desconectar() {
         try {
             conexion.close();
@@ -55,6 +67,11 @@ public class Conexion {
         }
     }
 
+    /**
+     *  Insertar Alumno en la BD.
+     * @param nombre recibe el nombre del alumno a insertar
+     * @param clave recibe la clave del alumno a insertar
+     */
     public void insertarAlumno(String nombre, String clave) {
         conectar();
         try {
@@ -70,6 +87,11 @@ public class Conexion {
         desconectar();
     }
 
+    /**
+     * Carga las reservas de un determinado Alumno de la base de datos a memoria
+     * @param nombre recibe el nombre del Alumno
+     * @return devuelve el HashMap de Reserva
+     */
     public HashMap<Integer, Reserva> cargarReservasAlumno(String nombre) {
         HashMap<Integer, Reserva> reservas = new HashMap<>();
         int codigo = consultarCodigoAlumno(nombre);
@@ -94,7 +116,12 @@ public class Conexion {
         desconectar();
         return reservas;
     }
-    
+
+    /**
+     * Carga las reservas de un determinado Profesor de la base de datos a memoria
+     * @param nombre recibe el nombre del Profesor
+     * @return devuelve el HasMap de Reserva
+     */
     public HashMap<Integer, Reserva> cargarReservasProfesor(String nombre) {
         HashMap<Integer, Reserva> reservas = new HashMap<>();
         int codigo = consultarCodigoProfesor(nombre);
@@ -119,13 +146,18 @@ public class Conexion {
         desconectar();
         return reservas;
     }
+
+    /**
+     * Carga todas las reservas registradas en la base de datos
+     * @return devuelve el HasMap de reserva
+     */
     public HashMap<Integer, Reserva> cargarTodasLasReservas() {
         HashMap<Integer, Reserva> reservas = new HashMap<>();
         int contador = 0;
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("select * from reservas");
-            
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -143,6 +175,10 @@ public class Conexion {
         return reservas;
     }
 
+    /**
+     * Carga todos los alumnos de la base de datos a memoria
+     * @return devuelve un ArrayList de Alumno
+     */
     public ArrayList<Alumno> cargarAlumnos() {
         ArrayList<Alumno> vAlumnos = new ArrayList<>();
         conectar();
@@ -165,6 +201,10 @@ public class Conexion {
         return vAlumnos;
     }
 
+    /**
+     * Carga todos los admins de la base de datos a memoria
+     * @return devuelve un ArrayList de Admin
+     */
     public ArrayList<Admin> cargarAdmins() {
         ArrayList<Admin> vAdmins = new ArrayList<>();
         conectar();
@@ -187,6 +227,10 @@ public class Conexion {
         return vAdmins;
     }
 
+    /**
+     * Carga todos los profesores de la base de datos a memoria
+     * @return devuelve un ArrayList de Profesor
+     */
     public ArrayList<Profesor> cargarProfesor() {
         ArrayList<Profesor> vProfesores = new ArrayList<>();
         conectar();
@@ -209,6 +253,13 @@ public class Conexion {
         return vProfesores;
     }
 
+    /**
+     * Insertar Reserva en la base de datos.
+     * @param horai recibe la hora de inicio de la practica
+     * @param horaf recibe la hora final de la practica
+     * @param alumno recibe el codigo de alumno
+     * @param profesor recibe el codigo de profesor
+     */
     public void insertarReserva(int horai, int horaf, int alumno, int profesor) {
         conectar();
         try {
@@ -224,19 +275,12 @@ public class Conexion {
         desconectar();
     }
 
-    /*public void insertarAlumno2(String nombre, String clave, int horas){
-        conectar();
-        try {
-            PreparedStatement ps = conexion.prepareStatement("insert into alumno values(0,?,?,?)");
-            ps.setString(1, nombre);
-            ps.setString(2, clave);
-            ps.setInt(3, horas);
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            System.err.println("Error al insertar el alumno");
-        }
-        desconectar();
-    }*/
+    /**
+     * Inserta un profesor a la base de datos
+     * @param nombre recibe el nombre de Profesor
+     * @param clave recibe la clave de Profesor
+     * @param vehiculo recibe una matrícula del vehículo
+     */
     public void insertarProfesor(String nombre, String clave, String vehiculo) {
         conectar();
         try {
@@ -251,6 +295,12 @@ public class Conexion {
         desconectar();
     }
 
+    /**
+     * Insertar Admin en la base de datos.
+     * @param nombre recibe la clave de Admin
+     * @param clave recibe la clave de Admin
+     * @param admin recibe un booleano true si es admin
+     */
     public void insertarAdmin(String nombre, String clave, Boolean admin) {
         conectar();
         try {
@@ -265,6 +315,11 @@ public class Conexion {
         desconectar();
     }
 
+    /**
+     * Consulta del codigo de alumno
+     * @param nombre recibe el nombre del alumno
+     * @return devuelve un int
+     */
     public int consultarCodigoAlumno(String nombre) {
         int codigo = 0;
         conectar();
@@ -285,6 +340,11 @@ public class Conexion {
         return codigo;
     }
 
+    /**
+     * Consulta del codigo de profesor
+     * @param nombre recibe el nombre del profesor
+     * @return devuelve un int
+     */
     public int consultarCodigoProfesor(String nombre) {
         int codigo = 0;
         conectar();
@@ -304,7 +364,15 @@ public class Conexion {
         desconectar();
         return codigo;
     }
-    
+
+    /**
+     * Consulta del codigo de reserva
+     * @param alumno recibe el nombre del alumno
+     * @param profesor recibe el nombre del profesor
+     * @param horai recibe la hora de inicio de la reserva
+     * @param horaf recibe la hora de fin de la reserva
+     * @return devueve un int
+     */
     public int consultarCodigoReserva(int alumno, int profesor, int horai, int horaf) {
         int codigo = 0;
         conectar();
@@ -328,6 +396,11 @@ public class Conexion {
         return codigo;
     }
 
+    /**
+     * Consulta a la BD del nombre de un profesor por su codigo
+     * @param codigo recibe el codigo
+     * @return devuelve un String
+     */
     public String consultarNombreProfesor(int codigo) {
         String nombre = "";
         conectar();
@@ -347,7 +420,12 @@ public class Conexion {
         desconectar();
         return nombre;
     }
-    
+
+    /**
+     * Consulta a la BD del nombre de un alumno por su codigo
+     * @param codigo recibe el codigo
+     * @return devuelve un String
+     */
     public String consultarNombreAlumno(int codigo) {
         String nombre = "";
         conectar();
@@ -367,7 +445,11 @@ public class Conexion {
         desconectar();
         return nombre;
     }
-    
+
+    /**
+     * Elimina una reserva de la BD
+     * @param codigo recibe el codigo de reserva
+     */
     public void eliminarReserva(int codigo) {
         conectar();
         try {
@@ -379,9 +461,13 @@ public class Conexion {
         }
         desconectar();
     }
-    
+
+    /**
+     * Cambia el estado de completada a true
+     * @param codigo recibe el codigo de la reserva
+     */
     public void completarReserva(int codigo) {
-        
+
         conectar();
         try {
             PreparedStatement ps = conexion.prepareStatement("update reservas set completada = 1 where cod_reserva = ?");
@@ -392,7 +478,12 @@ public class Conexion {
         }
         desconectar();
     }
-    
+
+    /**
+     * Sumar horas a un alumno
+     * @param codigo recibe el codigo de alumno
+     * @param horas recibe las horas a sumar
+     */
     public void sumarHoras(int codigo, int horas) {
         conectar();
         try {

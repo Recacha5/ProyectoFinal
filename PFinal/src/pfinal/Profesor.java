@@ -13,6 +13,12 @@ public class Profesor extends Persona{
     
     private String vehiculo;
 
+    /**Constructor del objeto Profesor, descendiente de la clase Persona
+     *
+     * @param vehiculo recibe la matricula de un vehiculo
+     * @param nombre recibe el nombre de Profesor
+     * @param clave recibe la clave
+     */
     public Profesor(String vehiculo, String nombre, String clave) {
         super(nombre, clave);
         this.vehiculo = vehiculo;

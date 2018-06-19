@@ -13,6 +13,12 @@ public class Alumno extends Persona {
 
     private int horas;
 
+    /**Constructor del objeto Alumno, descendiente de la clase Persona.
+     *
+     * @param horas recibe las horas realizadas
+     * @param nombre recibe el nombre
+     * @param clave recibe la clave
+     */
     public Alumno(int horas, String nombre, String clave) {
         super(nombre, clave);
         this.horas = horas;

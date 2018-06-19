@@ -21,6 +21,13 @@ public class Reserva {
     private boolean completada;
     private Conexion c = new Conexion();
 
+    /**
+     * Constructor para crear una nueva reserva
+     * @param horaI recibe la hora de inicio de la reserva
+     * @param horaF recibe la hora de fin de la reserva
+     * @param alumno recibe el codigo de alumno
+     * @param profesor recibe el codigo de profesor
+     */
     public Reserva(int horaI, int horaF, int alumno, int profesor) {
         this.horaI = horaI;
         this.horaF = horaF;
@@ -29,17 +36,23 @@ public class Reserva {
         this.completada = false;
         
     }
-
+    /**
+     * Constructor para crear la Reserva tomándola de la BD
+     * @param horaI recibe la hora de inicio de la reserva
+     * @param horaF recibe la hora de fin de la reserva
+     * @param alumno recibe el codigo de alumno
+     * @param profesor recibe el codigo de profesor
+     * @param completada recibe un booleano true si está completada y false si no lo está
+     */
     public Reserva(int horaI, int horaF, int alumno, int profesor, boolean completada) {
         this.horaI = horaI;
         this.horaF = horaF;
         this.alumno = alumno;
         this.profesor = profesor;
         this.completada = completada;
-        
     }
     
-
+    
     /**
      * @return the horaI
      */
@@ -110,6 +123,10 @@ public class Reserva {
         this.completada = completada;
     }
     
+    /**
+     *
+     * @return
+     */
     public String completar(){
         if (completada) {
             return "Sí";

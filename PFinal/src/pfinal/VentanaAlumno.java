@@ -274,6 +274,10 @@ public class VentanaAlumno extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Activa los jSlider de la Mañana
+     * @param evt 
+     */
     private void jRadioButtonMañanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMañanaActionPerformed
 
         jSliderInicioManana.setEnabled(true);
@@ -283,6 +287,10 @@ public class VentanaAlumno extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jRadioButtonMañanaActionPerformed
 
+    /**
+     * Activa la los jSlider de la tarde
+     * @param evt 
+     */
     private void jRadioButtonTardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonTardeActionPerformed
         jSliderInicioTarde.setEnabled(true);
         jSliderFinTarde.setEnabled(true);
@@ -290,6 +298,10 @@ public class VentanaAlumno extends javax.swing.JFrame {
         jSliderFinManana.setEnabled(false);
     }//GEN-LAST:event_jRadioButtonTardeActionPerformed
 
+    /**
+     * Realiza una reserva
+     * @param evt 
+     */
     private void jButtonReservarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReservarMouseClicked
 
         boolean libre = true;
@@ -338,12 +350,19 @@ public class VentanaAlumno extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonReservarMouseClicked
 
+    /**
+     * Cierra la ventana y vuelve a pedir usuario y contraseña para logearte
+     * @param evt 
+     */
     private void jButtonDesconectarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDesconectarMouseClicked
         Autoescuela a = new Autoescuela();
         a.setLocationRelativeTo(this);
         a.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonDesconectarMouseClicked
+    /**
+     * Método para crear un modelo para JList
+     */
     private void crearLista() {
         modelo.removeAllElements();
         reservas = c.cargarReservasAlumno(usuario);

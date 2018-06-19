@@ -11,16 +11,18 @@ package pfinal;
  */
 public abstract class Persona {
     
+    
     protected String nombre;
     protected String clave;
-
+    
+    /**Constructor del objeto persona.
+     * @param nombre
+     * @param clave
+     */
     public Persona(String nombre, String clave) {
         this.nombre = nombre;
         this.clave = clave;
     }
-
-    
-
     /**
      * @return the nombre
      */
